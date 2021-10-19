@@ -1,31 +1,38 @@
-from flask import Flask,render_template, request, redirect, url_for
+from datetime import time
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy, sqlalchemy
 
-app =Flask(__name__)
+app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db_test.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+
 class Todo(db.Model):
-    id = db.Column(db.Integer , primary_key= True)
+    id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
     complete = db.Column(db.Boolean)
 
+
 @app.route('/')
 def index():
-    #testing
+    # testing
     todo_li = Todo.query.all()
-    return render_template('homepage.html', todo_li=todo_li)
+    return render_template("homepage.html", todo_li=todo_li)
+
 
 @app.route("/add", methods=["POST"])
 def add():
-    title = request.form.("title")
-    new_todo = Todo(title=title, comeplete=False)
+    title = request.form.get("title")
+    new_todo = Todo(title=title, complete=False)
     db.session.add(new_todo)
     db.session.commit()
-    return redirect(url_for("index"))
-
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     db.create_all()
+    for x in range(10):
+        t = Todo(title = 'test', complete = False)
+        db.session.add(t)
+    db.session.commit()
     app.run(debug=True)

@@ -22,7 +22,9 @@ body {
     margin-bottom: auto;
     border-radius: 6px;
     box-shadow: 0px 6px 10px 0px rgb(48, 48, 48);
-    padding: 2.5% 0% 0% 4%;
+    padding: 2.5% 0% 2.5% 4%;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 .new_task_btn{
@@ -58,14 +60,14 @@ body {
 }
 
 .option1{
-    background-color: rgb(255, 217, 0);
+    background-color: #EAEA6C;
     box-sizing: border-box;
 }
 .option2{
-    background-color: rgb(0, 183, 255);
+    background-color: #AEE3E5;
     box-sizing: border-box;
 }
 .option3{
-    background-color: rgb(255, 60, 0);
+    background-color: #F67D81;
     box-sizing: border-box;
 }

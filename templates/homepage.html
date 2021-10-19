@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Todoer</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='../static/stylesheets/main.css'>
-    <script src='./main.js'></script>
+    <script src='../static/main.js'></script>
 </head>
+
 <body>
-    <center><img class="logo" src="../static/assets/logo.png" alt="logo" height="50" ></center>
+    <center><img class="logo" src="../static/assets/logo.png" alt="logo" height="50"></center>
     <div class="container">
         <form action="" class="input_form">
             <select>
@@ -21,16 +23,24 @@
                     <div>Moderate</div>
                 </option>
                 <option value="" class="option3">
-                    <di>High</div>
+                    <div>High
+                    </div>
                 </option>
             </select>
-            <input type="text" class="input_text">
+            <input type="text" name="title" placeholder="enter task here...">
         </form>
-        
+
         <button class="new_task_btn">
             <img class="new_task_btn_ico" src="../static/assets/file_new.svg" alt="ico">
             <div class="new_task_btn_text">New Task</div>
         </button>
+
+        {% for todo in todo_li %}
+        <p>{{todo.id}} - {{todo.title}} - {{todo.complete}}</p>
+        {% endfor %}
+
     </div>
+
 </body>
+
 </html>

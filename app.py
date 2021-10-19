@@ -1,4 +1,4 @@
-from flask import Flask,render_template
+from flask import Flask,render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy, sqlalchemy
 
 app =Flask(__name__)
@@ -15,12 +15,17 @@ class Todo(db.Model):
 def index():
     #testing
     todo_li = Todo.query.all()
-    print(todo_li)
-    return render_template('homepage.html')
+    return render_template('homepage.html', todo_li=todo_li)
+
+@app.route("/add", methods=["POST"])
+def add():
+    title = request.form.("title")
+    new_todo = Todo(title=title, comeplete=False)
+    db.session.add(new_todo)
+    db.session.commit()
+    return redirect(url_for("index"))
+
 
 if __name__ == '__main__':
     db.create_all()
-    new_todo = Todo(title='1st todo', complete = False)
-    db.session.add(new_todo)
-    db.session.commit()
     app.run(debug=True)

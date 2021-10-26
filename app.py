@@ -2,6 +2,8 @@ from datetime import time
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy, sqlalchemy
 
+import random
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db_test.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -12,6 +14,7 @@ class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100))
     complete = db.Column(db.Boolean)
+    priority = db.Column(db.String(1))
 
 
 @app.route('/')
@@ -31,8 +34,12 @@ def add():
 
 if __name__ == '__main__':
     db.create_all()
-    for x in range(10):
-        t = Todo(title = 'test', complete = False)
-        db.session.add(t)
-    db.session.commit()
+    #testing
+    # c = [True, False]
+    # p = ['L', 'M', 'H']
+    # d = ['plate', 'bowl', 'toilet', 'socks', 'vase', 'table', 'zipper', 'eraser', 'soda can', 'headphones', 'cat', 'pen', 'bag', 'playing card', 'cookie jar', 'pants', 'truck', 'teddies', 'face wash', 'conditioner']
+    # for x in range(20):
+    #     t = Todo(title = random.choice(['buy ','sell '])+random.choice(d), complete = random.choice(c), priority = random.choice(p))
+    #     db.session.add(t)
+    # db.session.commit()
     app.run(debug=True)

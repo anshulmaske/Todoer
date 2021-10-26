@@ -36,11 +36,28 @@
         </button>
 
         {% for todo in todo_li %}
-        <p>{{todo.id}} - {{todo.title}} - {{todo.complete}}</p>
+        <div class="todo_item">
+            <p>
+                {% if todo.priority == "L"%}
+            <div class="prL"></div>
+            {% elif todo.priority == "M" %}
+            <div class="prM"></div>
+            {% else %}
+            <div class="prH"></div>
+            {% endif %}
+            {{todo.title}}
+            <button class="action_button">
+                <img class="action_button_img" src="../static/assets/Delete.svg" alt="ico">
+            </button>
+            <button class="action_button">
+                <img class="action_button_img" src="../static/assets/done.svg" alt="ico">
+            </button>
+
+            </p>
+        </div>
         {% endfor %}
-
     </div>
-
+    
 </body>
 
 </html>

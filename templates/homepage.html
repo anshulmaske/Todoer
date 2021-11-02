@@ -13,51 +13,50 @@
 <body>
     <center><img class="logo" src="../static/assets/logo.png" alt="logo" height="50"></center>
     <div class="container">
-        <form action="" class="input_form">
-            <select>
+        <form action="/add" class="input_form" method="post">
+            <select name="priority">
                 <option hidden=True value="NA">Select priority</option>
-                <option value="" class="option1">
+                <option value="L" class="option1">
                     <div>Low</div>
                 </option>
-                <option value="" class="option2">
+                <option value="M" class="option2">
                     <div>Moderate</div>
                 </option>
-                <option value="" class="option3">
-                    <div>High
-                    </div>
+                <option value="H" class="option3">
+                    <div>High</div>
                 </option>
             </select>
             <input type="text" name="title" placeholder="enter task here...">
+            <button class="new_task_btn">
+                <a href="/">
+                    <img class="new_task_btn_ico" src="../static/assets/file_new.svg" alt="ico">
+                    <div class="new_task_btn_text">Add Task</div>
+                </a>
+            </button>
         </form>
-
-        <button class="new_task_btn">
-            <img class="new_task_btn_ico" src="../static/assets/file_new.svg" alt="ico">
-            <div class="new_task_btn_text">New Task</div>
-        </button>
 
         {% for todo in todo_li %}
         <div class="todo_item">
             <p>
                 {% if todo.priority == "L"%}
-            <div class="prL"></div>
-            {% elif todo.priority == "M" %}
-            <div class="prM"></div>
-            {% else %}
-            <div class="prH"></div>
-            {% endif %}
-            {{todo.title}}
-            <button class="action_button">
-                <img class="action_button_img" src="../static/assets/Delete.svg" alt="ico">
-            </button>
-            <button class="action_button">
-                <img class="action_button_img" src="../static/assets/done.svg" alt="ico">
-            </button>
-
+                    <div class="prL"></div>
+                {% elif todo.priority == "M" %}
+                    <div class="prM"></div>
+                {% else %}
+                    <div class="prH"></div>
+                {% endif %}
+                {{todo.title}}
+                <button class="action_button">
+                    <img class="action_button_img" src="../static/assets/Delete.svg" alt="ico">
+                </button>
+                <button class="action_button">
+                    <img class="action_button_img" src="../static/assets/done.svg" alt="ico">
+                </button>
             </p>
         </div>
         {% endfor %}
     </div>
-    
+
 </body>
 
 </html>

@@ -24,10 +24,13 @@ def index():
     return render_template("homepage.html", todo_li=todo_li)
 
 
-@app.route("/add", methods=["POST"])
+@app.route("/add", methods=["POST","GET"])
 def add():
+    print("here")
     title = request.form.get("title")
-    new_todo = Todo(title=title, complete=False)
+    priority = request.form.get("priority")
+    print(title, priority)
+    new_todo = Todo(title=title, complete=False, priority= priority)
     db.session.add(new_todo)
     db.session.commit()
     return redirect(url_for('index'))

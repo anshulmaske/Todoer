@@ -45,13 +45,17 @@
                 {% else %}
                     <div class="prH"></div>
                 {% endif %}
-                {{todo.title}}
-                <button class="action_button">
+                {% if todo.complete %}
+                    <del>{{todo.title}}</del>
+                {% else %}
+                    {{todo.title}}
+                {% endif %}
+                <a class="action_button" href="/delete/{{todo.id}}">
                     <img class="action_button_img" src="../static/assets/Delete.svg" alt="ico">
-                </button>
-                <button class="action_button">
+                </a>
+                <a class="action_button" href="/update/{{todo.id}}">
                     <img class="action_button_img" src="../static/assets/done.svg" alt="ico">
-                </button>
+                </a>
             </p>
         </div>
         {% endfor %}

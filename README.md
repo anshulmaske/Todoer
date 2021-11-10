@@ -8,3 +8,11 @@
 - Set priorities for your task.
 - Mark your tasks as completed.
 - Remove existing tasks.
+
+## Setting up system to run Web app
+- Install python3.x (python.org).
+- Using pip install flask and flask_sqlalchemy.
+- Go to the projects directory using the terminal.
+- Then write "python app.py" and press enter.
+- Follow the link to the local webpage printed on the terminal.
+- Volia! 

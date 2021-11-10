@@ -1,11 +1,8 @@
-from datetime import time
 from flask import Flask, render_template, request, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy, sqlalchemy
-
-import random
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db_test.sqlite'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -26,7 +23,6 @@ def index():
 
 @app.route("/add", methods=["POST","GET"])
 def add():
-    print("here")
     title = request.form.get("title")
     priority = request.form.get("priority")
     print(title, priority)
@@ -35,14 +31,20 @@ def add():
     db.session.commit()
     return redirect(url_for('index'))
 
+@app.route("/update/<int:todo_id>")
+def update(todo_id):
+    todo = Todo.query.filter_by(id = todo_id).first()
+    todo.complete = not todo.complete
+    db.session.commit()
+    return redirect(url_for('index'))
+
+@app.route("/delete/<int:todo_id>")
+def delete(todo_id):
+    todo = Todo.query.filter_by(id = todo_id).first()
+    db.session.delete(todo)
+    db.session.commit()
+    return redirect(url_for('index'))
+
 if __name__ == '__main__':
     db.create_all()
-    #testing
-    # c = [True, False]
-    # p = ['L', 'M', 'H']
-    # d = ['plate', 'bowl', 'toilet', 'socks', 'vase', 'table', 'zipper', 'eraser', 'soda can', 'headphones', 'cat', 'pen', 'bag', 'playing card', 'cookie jar', 'pants', 'truck', 'teddies', 'face wash', 'conditioner']
-    # for x in range(20):
-    #     t = Todo(title = random.choice(['buy ','sell '])+random.choice(d), complete = random.choice(c), priority = random.choice(p))
-    #     db.session.add(t)
-    # db.session.commit()
-    app.run(debug=True)
+    app.run()

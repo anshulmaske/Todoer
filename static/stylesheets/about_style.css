@@ -1,0 +1,28 @@
+body {
+    background-color: #BFD7A0;
+    box-sizing:border-box;
+}
+
+.logo{
+    height: 50px;
+    width: auto;
+    padding-top: 20px;
+    padding-bottom: auto;
+}
+
+.container {
+    box-sizing:border-box;
+    position: absolute;
+    width: 90%;
+    height: 70%;
+    background-color: #EDEDED;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 1%;
+    margin-bottom: auto;
+    border-radius: 6px;
+    box-shadow: 0px 6px 10px 0px rgb(48, 48, 48);
+    padding: 2.5% 4% 2.5% 4%;
+    overflow-x: hidden;
+    overflow-y: auto;
+}

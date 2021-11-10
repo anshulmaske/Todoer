@@ -15,4 +15,4 @@
 - Go to the projects directory using the terminal.
 - Then write "python app.py" and press enter.
 - Follow the link to the local webpage printed on the terminal.
-- Volia! 
+- Volia! ✨✨

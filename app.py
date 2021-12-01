@@ -1,3 +1,4 @@
+import datetime
 from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 
@@ -12,11 +13,12 @@ class Todo(db.Model):
     title = db.Column(db.String(100))
     complete = db.Column(db.Boolean)
     priority = db.Column(db.String(1))
-
+    date_added = db.Column(db.String(2))
+    month_added = db.Column(db.String(3))
+    
 
 @app.route('/')
 def index():
-    # testing
     todo_li = Todo.query.all()
     return render_template("homepage.html", todo_li=todo_li)
 
@@ -25,11 +27,15 @@ def index():
 def add():
     title = request.form.get("title")
     priority = request.form.get("priority")
-    print(title, priority)
-    new_todo = Todo(title=title, complete=False, priority= priority)
+    date_added = datetime.date.today()
+    new_todo = Todo(title=title, complete=False, priority= priority, date_added = str(date_added.day).zfill(2), month_added = date_added.strftime('%B')[:3])
     db.session.add(new_todo)
     db.session.commit()
-    return redirect(url_for('index'))
+    return redirect(url_for("index"))
+
+@app.route('/about')
+def about():
+    return render_template('about.html')
 
 @app.route("/update/<int:todo_id>")
 def update(todo_id):

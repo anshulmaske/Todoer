@@ -26,3 +26,27 @@ body {
     overflow-x: hidden;
     overflow-y: auto;
 }
+
+.container::-webkit-scrollbar {
+    width: 8.5px;
+}
+.container::-webkit-scrollbar-track {
+    background: #ffffff;
+    border-radius: 6px;
+}
+.container::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background: rgb(160, 160, 160); 
+}
+.container::-webkit-scrollbar-thumb:hover {
+    border-radius: 6px;
+    background: rgb(117, 117, 117); 
+}
+
+
+.back_button{
+    height: 30px; 
+    position: absolute; 
+    bottom: 10px; 
+    right: 10px;
+}

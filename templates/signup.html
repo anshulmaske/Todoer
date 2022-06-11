@@ -1,0 +1,90 @@
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <title>Todoer</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <link rel='stylesheet' type='text/css' media='screen' href='../static/stylesheets/signup.css'>
+        <script src='../static/js/signup.js'></script>
+    </head>
+
+    <body>
+        <center>
+            <a href="/">
+                <img class="logo" src="../static/assets/logo.png" alt="logo" height="50">
+            </a>
+        </center>
+        <center>
+            <div class="container">
+                <h1>Sign Up</h1>
+                <form action="/signup   " style="margin: auto; width: 220px;" method="post" name="inputform">
+                    <input type="text" name="fname" id="fname" placeholder="First Name" required><br>
+                    <input type="text" name="lname" id="lname" placeholder="Last Name" required><br>
+                    <input type="text" name="username" id="username" placeholder="username" required><br>
+                    <input type="text" name="email" id="email" placeholder="e-mail" required><br>
+                    <input type="password" name="password" id="password" placeholder="Password" required><br>
+                    <input type="password" name="cnf_password" id="cnf_password" placeholder="Confirm Password"
+                        required><br>
+                    <button type="submit" id="submit" disabled onclick="check()">Sign Up</button>
+                </form>
+                <p>Already have an account? <a href="/login">Login</a> </p>
+                {% if "email" in msg%}
+                    <p style="font-size: 11px; color: red;">{{msg["email"]}}</p>
+                {% endif %}
+                {% if "pass" in msg%}
+                    <p style="font-size: 11px; color: red;">{{msg["pass"]}}</p>
+                {% endif %}
+                {% if "username" in msg%}
+                    <p style="font-size: 11px; color: red;">{{msg["username"]}}</p>
+                {% endif %}
+            </div>
+        </center>
+
+        <div class="help_button">
+            <a href="/about">
+                <img class="help_img" src="../static/assets/Help.png" alt="">
+            </a>
+        </div>
+        <div class="help_button">
+            <a href="/about">
+                <img class="help_img" src="../static/assets/Help.png" alt="">
+            </a>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    </body>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#cnf_password").change(function (event) {
+                var pass = document.inputform.password.value;
+                var cnf_pass = document.inputform.cnf_password.value;
+                if (pass === cnf_pass) {
+                    var x = document.getElementById("submit");
+                    if(x.hasAttribute("disabled"))
+                    {
+                        x.removeAttribute("disabled");
+                    }
+                }
+                else{
+                    alert("Password do not match.")
+                    var x = document.getElementById("submit");
+                    if(!x.hasAttribute("disabled"))
+                    {
+                        x.setAttribute("disabled", true);
+                    }
+                }
+            });
+        });
+    </script>
+
+    </html>

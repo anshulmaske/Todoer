@@ -7,7 +7,6 @@
     <title>Todoer</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='../static/stylesheets/main.css'>
-    <script src='../static/main.js'></script>
 </head>
 
 <body>
@@ -18,7 +17,7 @@
     </center>
     <div class="container">
         <form action="/add" class="input_form" method="post">
-            <select name="priority">
+            <select name="priority" required>
                 <option hidden=True value="NA">Select priority</option>
                 <option value="L" class="option1">
                     <div>Low</div>
@@ -30,7 +29,7 @@
                     <div>High</div>
                 </option>
             </select>
-            <input type="text" name="title" placeholder="enter task here...">
+            <input type="text" name="title" placeholder="enter task here..." required>
             <button class="new_task_btn">
                 <a href="/">
                     <img class="new_task_btn_ico" src="../static/assets/file_new.svg" alt="ico">

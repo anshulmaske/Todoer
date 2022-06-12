@@ -7,18 +7,21 @@
     <title>Todoer</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='../static/stylesheets/main.css'>
-    <script src='../static/main.js'></script>
 </head>
 
 <body>
     <center>
-        <a href="/">
+        <a href="/" style="display: inline;">
             <img class="logo" src="../static/assets/logo.png" alt="logo" height="50">
         </a>
     </center>
+    <div>
+        <p style="display: inline;">Hi, {{current_user.username}}</p>
+        <button><a style="display: inline" href="/logout">Logout</a></button>
+    </div>
     <div class="container">
         <form action="/add" class="input_form" method="post">
-            <select name="priority">
+            <select name="priority" required>
                 <option hidden=True value="NA">Select priority</option>
                 <option value="L" class="option1">
                     <div>Low</div>
@@ -30,7 +33,9 @@
                     <div>High</div>
                 </option>
             </select>
-            <input type="text" name="title" placeholder="enter task here...">
+            <input type="text" name="title" placeholder="enter task here..." required>
+            <input type="text" name="due_date" placeholder="Due Date" style="width: 110px;" id="due_date" onmouseenter="(this.type='date')" onmouseleave="(this.type='text')" >
+            <input type="text" name="user_id" value="{{current_user.id}}" hidden>
             <button class="new_task_btn">
                 <a href="/">
                     <img class="new_task_btn_ico" src="../static/assets/file_new.svg" alt="ico">
@@ -39,44 +44,50 @@
             </button>
         </form>
         {% if todo_li|length %}
-            {% for todo in todo_li %}
-                <div class="todo_item">
-                    <p>
-                        {% if todo.priority == "L"%}
-                            <div class="prL"></div>
-                        {% elif todo.priority == "M" %}
-                            <div class="prM"></div>
-                        {% else %}
-                            <div class="prH"></div>
-                        {% endif %}
-                        
-                        <a class="action_button" href="/delete/{{todo.id}}">
-                            <img class="action_button_img" src="../static/assets/Delete.svg" alt="ico">
-                        </a>
-                        <a class="action_button" href="/update/{{todo.id}}">
-                            <img class="action_button_img" src="../static/assets/done.svg" alt="ico">
-                        </a>
-                        {% if todo.complete %}
-                            <del>
-                                {{todo.title}} 
-                            </del>
-                            <br>
-                            <div style="font-size: 11px; display: inline;">
-                                {{todo.date_added}}-{{todo.month_added}}
-                            </div>
-                        {% else %}
-                                {{todo.title}}
-                                <br> 
-                                <div style="font-size: 11px; display: inline;">
-                                    {{todo.date_added}}-{{todo.month_added}}
-                                </div>
-                        {% endif %}
-                    </p>
+        {% for todo in todo_li %}
+        <div class="todo_item">
+            <p>
+                {% if todo.priority == "L"%}
+            <div class="prL"></div>
+            {% elif todo.priority == "M" %}
+            <div class="prM"></div>
+            {% else %}
+            <div class="prH"></div>
+            {% endif %}
+
+            <a class="action_button" href="/delete/{{todo.id}}/{{current_user.id}}" >
+                <img class="action_button_img" src="../static/assets/Delete.svg" alt="ico">
+            </a>
+            <a class="action_button" href="/update/{{todo.id}}/{{current_user.id}}">
+                <img class="action_button_img" src="../static/assets/done.svg" alt="ico">
+            </a>
+            {% if todo.complete %}
+                <del>
+                    {{todo.title}}
+                </del>
+                <br>
+                <div style="font-size: 11px; display: inline;">
+                    {% if todo.date_due and todo.month_due %}
+                        Due Date: {{todo.date_due}}-{{todo.month_due}}
+                    {%endif%}
                 </div>
-            {% endfor %}
+            {% else %}
+                {{todo.title}}
+                <br>
+                <div style="font-size: 11px; display: inline;">
+                    {% if todo.date_due !='' and todo.month_due !=''%}
+                        Due Date: {{todo.date_due}}-{{todo.month_due}}
+                    {%endif%}
+                </div>
+            {% endif %}
+            </p>
+        </div>
+        {% endfor %}
         {% else %}
-            <center><img style="height: 250px;" src="../static/assets/No data-amico.svg" alt=""></center>
-            <center><p>No Tasks!</p></center>
+        <center><img style="height: 250px;" src="../static/assets/No data-amico.svg" alt=""></center>
+        <center>
+            <p>No Tasks!</p>
+        </center>
         {%endif%}
     </div>
     <div class="help_button">

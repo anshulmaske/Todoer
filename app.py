@@ -1,16 +1,23 @@
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, flash, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
-from flask_wtf import Form
-from flask_login import UserMixin, login_user, logout_user, login_manager, login_required, current_user
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 import datetime
 from validator import emailValidator, nameValidator, passValidator
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = "temporary"
 db = SQLAlchemy(app)
+login_mgr = LoginManager()
+login_mgr.init_app(app=app)
+login_mgr.login_view = 'login'
 
+
+@login_mgr.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
 class Todo(db.Model):
     __tablename__ = "todo"
@@ -42,11 +49,16 @@ class User(db.Model, UserMixin):
 
 @app.route('/')
 def index():
+    return render_template("index.html")
+
+@app.route('/dashboard')
+@login_required
+def dashboard():
     todo_li = Todo.query.all()
     return render_template("homepage.html", todo_li=todo_li)
 
 @app.route('/signup', methods = ["GET", "POST"])
-def signUpUser():
+def signup():
     if request.method == "GET":
         return render_template('signup.html')
     user = User()
@@ -60,7 +72,7 @@ def signUpUser():
         'fname': user.fname,
         'lname': user.lname,
         'username': user.username,
-        
+        'email': user.email,
     }
     flag = False
     if not emailValidator(user.email):
@@ -76,14 +88,26 @@ def signUpUser():
     if flag:
         return render_template("signup.html", msg = msg)
 
-    # user.setPass(password)
-    # db.session.add(user)
-    # db.session.commit()
-    return redirect(url_for(".logInUser"))
+    user.setPass(password)
+    db.session.add(user)
+    db.session.commit()
+    return redirect(url_for(".login"))
 
-@app.route('/login')
-def logInUser():
-    return render_template('login.html')
+@app.route('/login', methods=["POST","GET"])
+def login():
+    if request.method == "GET":
+        return render_template('login.html')
+    user = User.query.filter_by(username=request.form.get('username')).first()
+    if user.checkPass(request.form.get('password')):
+        login_user(user)
+        return redirect(url_for('dashboard'))
+    return render_template('login.html', msg = "Incorrect Credentials. Please Try Again")
+
+@app.route('/logout', methods=["POST","GET"])
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
 
 @app.route("/add", methods=["POST","GET"])
 def add():

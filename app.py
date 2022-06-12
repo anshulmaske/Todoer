@@ -1,8 +1,8 @@
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import Flask, flash, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
-import datetime
+from datetime import date, datetime
 from validator import emailValidator, nameValidator, passValidator
 
 app = Flask(__name__)
@@ -23,9 +23,9 @@ class Todo(db.Model):
     __tablename__ = "todo"
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer)
-    title = db.Column(db.String(100))
-    complete = db.Column(db.Boolean)
-    priority = db.Column(db.String(1))
+    title = db.Column(db.String(100), nullable = False)
+    complete = db.Column(db.Boolean, nullable = False)
+    priority = db.Column(db.String(1), nullable = False)
     date_added = db.Column(db.String(2))
     month_added = db.Column(db.String(3))
     date_due = db.Column(db.String(2))
@@ -34,8 +34,8 @@ class Todo(db.Model):
 class User(db.Model, UserMixin):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key =True)
-    fname = db.Column(db.String(50))
-    lname = db.Column(db.String(50))
+    fname = db.Column(db.String(50), nullable = False)
+    lname = db.Column(db.String(50), nullable = False)
     username = db.Column(db.String(30), nullable = False, unique = True)
     email = db.Column(db.String(120), nullable = False, unique = True)
     password_hash = db.Column(db.String(256))
@@ -54,7 +54,7 @@ def index():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    todo_li = Todo.query.all()
+    todo_li = list(Todo.query.filter_by(user_id=current_user.id))
     return render_template("homepage.html", todo_li=todo_li)
 
 @app.route('/signup', methods = ["GET", "POST"])
@@ -110,33 +110,52 @@ def logout():
     return redirect(url_for('login'))
 
 @app.route("/add", methods=["POST","GET"])
+@login_required
 def add():
     title = request.form.get("title")
     priority = request.form.get("priority")
-    date_added = datetime.date.today()
-    #TODO: Add due date and due month
-    new_todo = Todo(title=title, complete=False, priority= priority, date_added = str(date_added.day).zfill(2), month_added = date_added.strftime('%B')[:3])
+    user_id = request.form.get("user_id")
+    date_added = date.today()
+    due = request.form.get('due_date')
+    date_due = ''
+    month_due = ''
+    if due:
+        due = datetime.strptime(due, "%Y-%m-%d")
+        date_due = str(due.day)
+        month_due = str(due.strftime("%b"))
+    new_todo = Todo(
+        title=title, 
+        user_id = user_id,
+        complete=False, 
+        priority= priority, 
+        date_added = str(date_added.day).zfill(2), 
+        month_added = date_added.strftime('%B')[:3],
+        date_due = date_due,
+        month_due = month_due
+        )
     db.session.add(new_todo)
     db.session.commit()
-    return redirect(url_for("index"))
+    return redirect(url_for("dashboard"))
 
 @app.route('/about')
 def about():
     return render_template('about.html')
 
-@app.route("/update/<int:todo_id>")
-def update(todo_id):
-    todo = Todo.query.filter_by(id = todo_id).first()
+@app.route("/update/<int:todo_id>/<int:user_id>")
+@login_required
+def update(todo_id, user_id):
+    todo = Todo.query.filter_by(id = todo_id, user_id = user_id).first()
     todo.complete = not todo.complete
     db.session.commit()
-    return redirect(url_for('index'))
+    return redirect(url_for('dashboard'))
 
-@app.route("/delete/<int:todo_id>")
-def delete(todo_id):
-    todo = Todo.query.filter_by(id = todo_id).first()
+@app.route("/delete/<int:todo_id>/<int:user_id>")
+@login_required
+def delete(todo_id, user_id):
+    todo = Todo.query.filter_by(id = todo_id, user_id = user_id).first()
     db.session.delete(todo)
     db.session.commit()
-    return redirect(url_for('index'))
+    return redirect(url_for('dashboard'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()

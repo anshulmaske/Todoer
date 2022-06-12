@@ -34,6 +34,8 @@
                 </option>
             </select>
             <input type="text" name="title" placeholder="enter task here..." required>
+            <input type="text" name="due_date" placeholder="Due Date" style="width: 110px;" id="due_date" onmouseenter="(this.type='date')" onmouseleave="(this.type='text')" >
+            <input type="text" name="user_id" value="{{current_user.id}}" hidden>
             <button class="new_task_btn">
                 <a href="/">
                     <img class="new_task_btn_ico" src="../static/assets/file_new.svg" alt="ico">
@@ -53,26 +55,30 @@
             <div class="prH"></div>
             {% endif %}
 
-            <a class="action_button" href="/delete/{{todo.id}}">
+            <a class="action_button" href="/delete/{{todo.id}}/{{current_user.id}}" >
                 <img class="action_button_img" src="../static/assets/Delete.svg" alt="ico">
             </a>
-            <a class="action_button" href="/update/{{todo.id}}">
+            <a class="action_button" href="/update/{{todo.id}}/{{current_user.id}}">
                 <img class="action_button_img" src="../static/assets/done.svg" alt="ico">
             </a>
             {% if todo.complete %}
-            <del>
-                {{todo.title}}
-            </del>
-            <br>
-            <div style="font-size: 11px; display: inline;">
-                {{todo.date_added}}-{{todo.month_added}}
-            </div>
+                <del>
+                    {{todo.title}}
+                </del>
+                <br>
+                <div style="font-size: 11px; display: inline;">
+                    {% if todo.date_due and todo.month_due %}
+                        Due Date: {{todo.date_due}}-{{todo.month_due}}
+                    {%endif%}
+                </div>
             {% else %}
-            {{todo.title}}
-            <br>
-            <div style="font-size: 11px; display: inline;">
-                {{todo.date_added}}-{{todo.month_added}}
-            </div>
+                {{todo.title}}
+                <br>
+                <div style="font-size: 11px; display: inline;">
+                    {% if todo.date_due !='' and todo.month_due !=''%}
+                        Due Date: {{todo.date_due}}-{{todo.month_due}}
+                    {%endif%}
+                </div>
             {% endif %}
             </p>
         </div>

@@ -63,10 +63,10 @@ def signup():
     if request.method == "GET":
         return render_template('signup.html', msg = msg)
     user = User()
-    user.fname = request.form.get("fname")
-    user.lname = request.form.get("lname")
-    user.username = request.form.get("username")
-    user.email = request.form.get("email")
+    user.fname = str(request.form.get("fname")).lower()
+    user.lname = str(request.form.get("lname")).lower()
+    user.username = str(request.form.get("username")).lower()
+    user.email = str(request.form.get("email")).lower()
     password = request.form.get("password")
     data = {
         'fname': user.fname,

@@ -11,9 +11,15 @@
 
 <body>
     <center>
-        <a href="/" style="display: inline;">
-            <img class="logo" src="../static/assets/logo.png" alt="logo" height="50">
-        </a>
+        {% if current_user.is_active %}
+            <a href="/dashboard">
+                <img class="logo" src="../static/assets/logo.png" alt="logo" height="50">
+            </a>
+        {% else %}
+            <a href="/">
+                <img class="logo" src="../static/assets/logo.png" alt="logo" height="50">
+            </a>
+        {%endif%}
     </center>
     <div style="margin-left: 2.5%;">
         <p style="display: inline; font-size: large; font-weight: 500;">Hi, {{current_user.username}}</p>

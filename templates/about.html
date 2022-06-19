@@ -11,9 +11,15 @@
 
 <body>
     <center>
-        <a href="/">
-            <img class="logo" src="../static/assets/logo.png" alt="logo" height="50">
-        </a>
+        {% if current_user.is_active %}
+            <a href="/dashboard">
+                <img class="logo" src="../static/assets/logo.png" alt="logo" height="50">
+            </a>
+        {% else %}
+            <a href="/">
+                <img class="logo" src="../static/assets/logo.png" alt="logo" height="50">
+            </a>
+        {%endif%}
     </center>
     <div class="container">
         <p style="font-size: 20px;">To add a new task simply follow the below instructions:</p>

@@ -16,27 +16,48 @@
     <center>
         {% if current_user.is_active %}
         <a href="/dashboard">
-            <img class="logo" src="../static/assets/logo.png" alt="logo" height="50">
+            <img class="logo-brand" src="../static/assets/logo.png" alt="logo" height="50">
         </a>
         {% else %}
         <a href="/">
-            <img class="logo" src="../static/assets/logo.png" alt="logo" height="50">
+            <img class="logo-brand" src="../static/assets/logo.png" alt="logo" height="50">
         </a>
         {%endif%}
     </center>
     <center>
         <div class="container">
             <h1>Sign Up</h1>
-            <form action="/signup" style="margin: auto; width: 220px;" method="post" name="inputform">
-                <input type="text" name="fname" id="fname" placeholder="First Name" required><br>
-                <input type="text" name="lname" id="lname" placeholder="Last Name" required><br>
-                <input type="text" name="username" id="username" placeholder="username" required><br>
-                <input type="text" name="email" id="email" placeholder="e-mail" required><br>
-                <input type="password" name="password" id="password" placeholder="Password" required><br>
-                <input type="password" name="cnf_password" id="cnf_password" placeholder="Confirm Password" required>
-                <br>
-                <button type="submit" id="submit" disabled onclick="check()">Sign Up</button>
-            </form>
+            <div name="inputform" id="inputform">
+                <form action="/signup" style="margin: auto; width: 220px;" method="post">
+                    <input type="text" name="fname" id="fname" placeholder="First Name" required>
+                    <div style="height: 20px; width: 20px; display: inline-block;"></div><br>
+                    <input type="text" name="lname" id="lname" placeholder="Last Name" required>
+                    <div style="height: 20px; width: 20px; display: inline-block;"></div><br>
+                    <input type="text" name="username" id="username" placeholder="username" required>
+                    <img style="height: 20px; width: 20px;" src="../static/assets/info.png" alt="" data-html="true"
+                        data-toggle="tooltip" data-placement="right" title="
+                    <ul>
+                        <li>Minimum 4 characters</li>
+                        <li>First letter alphabet</li>
+                        <li>Rest alphanumeric</li>
+                    </ul>"><br>
+                    <input type="text" name="email" id="email" placeholder="e-mail" required>
+                    <div style="height: 20px; width: 20px; display: inline-block;"></div><br>
+                    <input type="password" name="password" id="password" placeholder="Password" required><img
+                        style="height: 20px; ; width: 20px" src="../static/assets/info.png" alt="" data-html="true"
+                        data-toggle="tooltip" data-placement="right" title="
+                    <ul>
+                        <li>Minimum 4 characters</li>
+                        <li>At least one letter</li>
+                        <li>At least one number</li>
+                        <li>At least one special character</li>
+                    </ul>"><br>
+                    <input type="password" name="cnf_password" id="cnf_password" placeholder="Confirm Password"
+                        required>
+                    <div style="height: 20px; width: 20px; display: inline-block;"></div><br>
+                    <button type="submit" id="submit" disabled onclick="check()">Sign Up</button>
+                </form>
+            </div>
             <p>Already have an account? <a href="/login">Login</a> </p>
             {% if "email" in msg%}
             <p style="font-size: 11px; color: red;">{{msg["email"]}}</p>
@@ -91,7 +112,11 @@
             }
         });
         $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
+
+            $('[data-toggle="tooltip"]').tooltip({
+                container: 'body',
+                boundary: 'window',
+            })
         })
     });
 </script>

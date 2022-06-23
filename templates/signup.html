@@ -27,37 +27,34 @@
     <center>
         <div class="container">
             <h1>Sign Up</h1>
-            <div name="inputform" id="inputform">
-                <form action="/signup" style="margin: auto; width: 220px;" method="post">
-                    <input type="text" name="fname" id="fname" placeholder="First Name" required>
-                    <div style="height: 20px; width: 20px; display: inline-block;"></div><br>
-                    <input type="text" name="lname" id="lname" placeholder="Last Name" required>
-                    <div style="height: 20px; width: 20px; display: inline-block;"></div><br>
-                    <input type="text" name="username" id="username" placeholder="username" required>
-                    <img style="height: 20px; width: 20px;" src="../static/assets/info.png" alt="" data-html="true"
-                        data-toggle="tooltip" data-placement="right" title="
+            <form action="/signup" style="margin: auto; width: 220px;" method="post" name="inputform" id="inputform">
+                <input type="text" name="fname" id="fname" placeholder="First Name" required>
+                <div style="height: 20px; width: 20px; display: inline-block;"></div><br>
+                <input type="text" name="lname" id="lname" placeholder="Last Name" required>
+                <div style="height: 20px; width: 20px; display: inline-block;"></div><br>
+                <input type="text" name="username" id="username" placeholder="username" required>
+                <img style="height: 20px; width: 20px;" src="../static/assets/info.png" alt="" data-html="true"
+                    data-toggle="tooltip" data-placement="right" title="
                     <ul>
                         <li>Minimum 4 characters</li>
                         <li>First letter alphabet</li>
                         <li>Rest alphanumeric</li>
                     </ul>"><br>
-                    <input type="text" name="email" id="email" placeholder="e-mail" required>
-                    <div style="height: 20px; width: 20px; display: inline-block;"></div><br>
-                    <input type="password" name="password" id="password" placeholder="Password" required><img
-                        style="height: 20px; ; width: 20px" src="../static/assets/info.png" alt="" data-html="true"
-                        data-toggle="tooltip" data-placement="right" title="
+                <input type="text" name="email" id="email" placeholder="e-mail" required>
+                <div style="height: 20px; width: 20px; display: inline-block;"></div><br>
+                <input type="password" name="password" id="password" placeholder="Password" required>
+                <img style="height: 20px; ; width: 20px;" src="../static/assets/info.png" alt="" data-html="true"
+                    data-toggle="tooltip" data-placement="right" title="
                     <ul>
                         <li>Minimum 4 characters</li>
                         <li>At least one letter</li>
                         <li>At least one number</li>
                         <li>At least one special character</li>
                     </ul>"><br>
-                    <input type="password" name="cnf_password" id="cnf_password" placeholder="Confirm Password"
-                        required>
-                    <div style="height: 20px; width: 20px; display: inline-block;"></div><br>
-                    <button type="submit" id="submit" disabled onclick="check()">Sign Up</button>
-                </form>
-            </div>
+                <input type="password" name="cnf_password" id="cnf_password" placeholder="Confirm Password" required>
+                <div style="height: 20px; width: 20px; display: inline-block;"></div><br>
+                <button type="submit" id="submit" disabled>Sign Up</button>
+            </form>
             <p>Already have an account? <a href="/login">Login</a> </p>
             {% if "email" in msg%}
             <p style="font-size: 11px; color: red;">{{msg["email"]}}</p>
@@ -97,6 +94,8 @@
         $("#cnf_password").change(function (event) {
             var pass = document.inputform.password.value;
             var cnf_pass = document.inputform.cnf_password.value;
+            console.log(pass)
+            console.log(cnf_pass)
             if (pass === cnf_pass) {
                 var x = document.getElementById("submit");
                 if (x.hasAttribute("disabled")) {

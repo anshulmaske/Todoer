@@ -16,3 +16,5 @@
 - Then write "python app.py" and press enter.
 - Follow the link to the local webpage printed on the terminal.
 - Volia! ✨✨
+
+### This app is deployed on Pythonanywhere.com - [Todoer🔗](https://anshul2.pythonanywhere.com/)

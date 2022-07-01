@@ -1,123 +1,155 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Todoer</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel='stylesheet' type='text/css' media='screen' href='../static/stylesheets/signup.css'>
-    <script src='../static/js/signup.js'></script>
-</head>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+        <title>Todoer</title>
+        <meta name='viewport' content='width=device-width, initial-scale=1'>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+            integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+        <link rel='stylesheet' type='text/css' media='screen' href='../static/stylesheets/signup.css'>
+    </head>
 
-<body>
-    <center>
-        {% if current_user.is_active %}
-        <a href="/dashboard">
-            <img class="logo-brand" src="../static/assets/logo.png" alt="logo" height="50">
-        </a>
-        {% else %}
-        <a href="/">
-            <img class="logo-brand" src="../static/assets/logo.png" alt="logo" height="50">
-        </a>
-        {%endif%}
-    </center>
-    <center>
+    <body>
+        <nav class="navbar navbar-expand-lg shadow mb-5 navbar-light rounded-bottom" style="background-color: #2a9d8f;">
+            <div class="container-fluid">
+                {% if current_user.is_active %}
+                <a class="navbar-brand" href="/dashboard">
+                    <img class="logo-brand" src="../static/assets/logo.png" alt="logo" height="50">
+                </a>
+                {% else %}
+                <a class="navbar-brand" href="/">
+                    <img class="logo-brand" src="../static/assets/logo.png" alt="logo" height="50">
+                </a>
+                {%endif%}
+                <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            {% if current_user.is_active %}
+                                <a class="nav-link">Dashboard</a>
+                            {% else %}
+                                <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="Login to continue">
+                                    <a class="nav-link disabled" >Dashboard</a>
+                                </span>
+                            {% endif %}
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link disabled" href="#">Features</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
         <div class="container">
-            <h1>Sign Up</h1>
-            <form action="/signup" style="margin: auto; width: 220px;" method="post" name="inputform" id="inputform">
-                <input type="text" name="fname" id="fname" placeholder="First Name" required>
-                <div style="height: 20px; width: 20px; display: inline-block;"></div><br>
-                <input type="text" name="lname" id="lname" placeholder="Last Name" required>
-                <div style="height: 20px; width: 20px; display: inline-block;"></div><br>
-                <input type="text" name="username" id="username" placeholder="username" required>
-                <img style="height: 20px; width: 20px;" src="../static/assets/info.png" alt="" data-html="true"
-                    data-toggle="tooltip" data-placement="right" title="
-                    <ul>
-                        <li>Minimum 4 characters</li>
-                        <li>First letter alphabet</li>
-                        <li>Rest alphanumeric</li>
-                    </ul>"><br>
-                <input type="text" name="email" id="email" placeholder="e-mail" required>
-                <div style="height: 20px; width: 20px; display: inline-block;"></div><br>
-                <input type="password" name="password" id="password" placeholder="Password" required>
-                <img style="height: 20px; ; width: 20px;" src="../static/assets/info.png" alt="" data-html="true"
-                    data-toggle="tooltip" data-placement="right" title="
-                    <ul>
-                        <li>Minimum 4 characters</li>
-                        <li>At least one letter</li>
-                        <li>At least one number</li>
-                        <li>At least one special character</li>
-                    </ul>"><br>
-                <input type="password" name="cnf_password" id="cnf_password" placeholder="Confirm Password" required>
-                <div style="height: 20px; width: 20px; display: inline-block;"></div><br>
-                <button type="submit" id="submit" disabled>Sign Up</button>
-            </form>
-            <p>Already have an account? <a href="/login">Login</a> </p>
-            {% if "email" in msg%}
-            <p style="font-size: 11px; color: red;">{{msg["email"]}}</p>
-            {% endif %}
-            {% if "pass" in msg%}
-            <p style="font-size: 11px; color: red;">{{msg["pass"]}}</p>
-            {% endif %}
-            {% if "username" in msg%}
-            <p style="font-size: 11px; color: red;">{{msg["username"]}}</p>
-            {% endif %}
+            <center>
+                <form action="/signup" style="margin: auto; width: 220px;" method="post" name="inputform" id="inputform">
+                    <h2>Sign Up</h2>
+                    <div class="form-group"><input type="text" name="fname" id="fname" placeholder="First Name" required>
+                    </div>
+                    <div class="form-group"><input type="text" name="lname" id="lname" placeholder="Last Name" required>
+                    </div>
+                    <div class="form-group">
+                        <div style="height: 20px; width: 20px; display: inline-block;"></div>
+                        <input type="text" name="username" id="username" placeholder="username" required>
+                        <img style="height: 20px; width: 20px;" src="../static/assets/info.png" alt="" data-html="true"
+                            data-toggle="tooltip" data-placement="right" title="
+                        <ul>
+                            <li>Minimum 4 characters</li>
+                            <li>First letter alphabet</li>
+                            <li>Rest alphanumeric</li>
+                        </ul>">
+                    </div>
+                    <div class="form-group"><input type="text" name="email" id="email" placeholder="e-mail" required>
+                    </div>
+                    <div class="form-group">
+                        <div style="height: 20px; width: 20px; display: inline-block;"></div>
+                        <input type="password" name="password" id="password" placeholder="Password" required>
+                        <img style="height: 20px; ; width: 20px;" src="../static/assets/info.png" alt="" data-html="true"
+                            data-toggle="tooltip" data-placement="right" title="
+                        <ul>
+                            <li>Minimum 4 characters</li>
+                            <li>At least one letter</li>
+                            <li>At least one number</li>
+                            <li>At least one special character</li>
+                        </ul>">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="cnf_password" id="cnf_password" placeholder="Confirm Password"
+                            required>
+                    </div>
+                    <button type="submit" id="submit" class="btn btn-primary" disabled>Sign Up</button>
+                </form>
+                <small id="emailHelp" class="form-text text-muted">Already have an account?
+                    <a href="/login">Login</a>
+                </small>
+                {% if "email" in msg%}
+                <p style="font-size: 11px; color: red;">{{msg["email"]}}</p>
+                {% endif %}
+                {% if "pass" in msg%}
+                <p style="font-size: 11px; color: red;">{{msg["pass"]}}</p>
+                {% endif %}
+                {% if "username" in msg%}
+                <p style="font-size: 11px; color: red;">{{msg["username"]}}</p>
+                {% endif %}
+            </center>
         </div>
-    </center>
 
-    <div class="help_button">
-        <a href="/about">
-            <img class="help_img" src="../static/assets/Help.png" alt="">
-        </a>
-    </div>
-    <div class="help_button">
-        <a href="/about">
-            <img class="help_img" src="../static/assets/Help.png" alt="">
-        </a>
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
-</body>
-<script type="text/javascript">
-    $(document).ready(function () {
-        $("#cnf_password").change(function (event) {
-            var pass = document.inputform.password.value;
-            var cnf_pass = document.inputform.cnf_password.value;
-            console.log(pass)
-            console.log(cnf_pass)
-            if (pass === cnf_pass) {
-                var x = document.getElementById("submit");
-                if (x.hasAttribute("disabled")) {
-                    x.removeAttribute("disabled");
+        <!-- Footer -->
+        <footer class="fixed-bottom bg-dark py-3 px-2 rounded-top">
+            <div class="text-center text-white">
+                Give a ⭐ to this project on 
+                <a href="https://github.com/Ansh743/Todoer" target="_blank" data-toggle="tooltip" data-placement="top"
+                    title="View code on GitHub" >
+                    <img src="../static/assets/github-logo.png" alt="GitHub" style="width: 30px; height: auto;">
+                </a>
+            </div>
+        </footer>
+        <!-- Footer -->
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
+            integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"
+            crossorigin="anonymous"></script>
+    </body>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#cnf_password").change(function (event) {
+                var pass = document.inputform.password.value;
+                var cnf_pass = document.inputform.cnf_password.value;
+                console.log(pass)
+                console.log(cnf_pass)
+                if (pass === cnf_pass) {
+                    var x = document.getElementById("submit");
+                    if (x.hasAttribute("disabled")) {
+                        x.removeAttribute("disabled");
+                    }
                 }
-            }
-            else {
-                alert("Password do not match.")
-                var x = document.getElementById("submit");
-                if (!x.hasAttribute("disabled")) {
-                    x.setAttribute("disabled", true);
+                else {
+                    alert("Password do not match.")
+                    var x = document.getElementById("submit");
+                    if (!x.hasAttribute("disabled")) {
+                        x.setAttribute("disabled", true);
+                    }
                 }
-            }
-        });
-        $(function () {
+            });
+            $(function () {
 
-            $('[data-toggle="tooltip"]').tooltip({
-                container: 'body',
-                boundary: 'window',
+                $('[data-toggle="tooltip"]').tooltip({
+                    container: 'body',
+                    boundary: 'window',
+                })
             })
-        })
-    });
-</script>
+        });
+    </script>
 
 </html>

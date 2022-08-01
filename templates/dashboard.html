@@ -57,10 +57,10 @@
             </div>
         </div>
     </nav>
-    <div class="container">
+    <div class="container" id="todo-container">
         <form action="/add" class="input_form" method="post">
             <select name="priority" required>
-                <option hidden=True value="NA">Select priority</option>
+                <option value="">Select priority</option>
                 <option value="L" class="option1">
                     <div>Low</div>
                 </option>
@@ -78,48 +78,44 @@
             <a href="/">
                 <button class="btn btn-primary pb-1 pt-0 px-2">
                     <img class="img-fluid" style="height: 16px;" src="../static/assets/file_new.svg" alt="ico">
-                    <div class="text-sm d-inline" style="font-size: 12px;">Add Task</div>
+                    <div class="text-sm d-inline" style="font-size: 11px;">Add Task</div>
                 </button>
             </a>
         </form>
         {% if todo_li|length %}
         {% for todo in todo_li %}
         <div class="todo_item">
-            <p>
-                {% if todo.priority == "L"%}
-            <div class="prL"></div>
-            {% elif todo.priority == "M" %}
-            <div class="prM"></div>
-            {% else %}
-            <div class="prH"></div>
-            {% endif %}
-
-            <a class="action_button" href="/delete/{{todo.id}}/{{current_user.id}}">
-                <img class="action_button_img" src="../static/assets/Delete.svg" alt="ico">
-            </a>
-            <a class="action_button" href="/update/{{todo.id}}/{{current_user.id}}">
-                <img class="action_button_img" src="../static/assets/Done.svg" alt="ico">
-            </a>
-            {% if todo.complete %}
-            <del>
+            <div id="priority" class="pr{{todo.priority}}"></div>
+            <div id="todo_des">
+                {% if todo.complete %}
+                <del>
+                    {{todo.title}}
+                    <br>
+                </del>
+                <div style="font-size: 11px; display: inline;">
+                    {% if todo.date_due and todo.month_due %}
+                    Due Date: {{todo.date_due}}-{{todo.month_due}}
+                    {%endif%}
+                </div>
+                {% else %}
                 {{todo.title}}
-            </del>
-            <br>
-            <div style="font-size: 11px; display: inline;">
-                {% if todo.date_due and todo.month_due %}
-                Due Date: {{todo.date_due}}-{{todo.month_due}}
-                {%endif%}
+                <br>
+                <div style="font-size: 11px; display: inline;">
+                    {% if todo.date_due !='' and todo.month_due !=''%}
+                    Due Date: {{todo.date_due}}-{{todo.month_due}}
+                    {%endif%}
+                </div>
+                {% endif %}
             </div>
-            {% else %}
-            {{todo.title}}
-            <br>
-            <div style="font-size: 11px; display: inline;">
-                {% if todo.date_due !='' and todo.month_due !=''%}
-                Due Date: {{todo.date_due}}-{{todo.month_due}}
-                {%endif%}
+            <div id="action_button">
+                <a class="action_button" href="/update/{{todo.id}}/{{current_user.id}}">
+                    <img class="action_button_img" src="../static/assets/Done.svg" alt="ico">
+                </a>
+                <a class="action_button" href="/delete/{{todo.id}}/{{current_user.id}}">
+                    <img class="action_button_img" src="../static/assets/Delete.svg" alt="ico">
+                </a>
             </div>
-            {% endif %}
-            </p>
+
         </div>
         {% endfor %}
         {% else %}
@@ -150,5 +146,15 @@
         integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"
         crossorigin="anonymous"></script>
 </body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip({
+                container: 'body',
+                boundary: 'window',
+            })
+        })
+    });
+</script>
 
 </html>
